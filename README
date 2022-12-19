@@ -1,0 +1,115 @@
+===============================================================================
+
+                            Tema MN 2021
+                    Interpolare aplicata pe imagini
+
+===============================================================================
+
+Nume: Serban Bianca-Sanziana
+Email: bianca_serban25@yahoo.com
+
+===============================================================================
+
+Acest README contine informatii despre cum este structurat scheletul si
+checker-ul temei.
+
+===============================================================================
+
+1. Indicatii checker
+
+Fiecare cerinta se afla intr-un director separat:
+.
+├── bicubic
+├── bilinear
+└── nearest-neighbour
+
+In directorul tests se afla fisierele de intrare si de referinta.
+
+Fiecare cerinta are propriul checker. De exemplu, in folder-ul bilinear se
+poate rula checker-ul pentru cerinta aferenta astfel:
+
+octave checker_bilinear.m
+
+===============================================================================
+
+1. Nearest-neighbours
+	a) nn_2x2 	
+		- am initializat matricea cu 0
+		- am aflat cel mai apropiat pixel cu ajutorul lui round
+		- am calculat pixelul
+			
+	b) nn_resize 	
+		- am calculat factorii de scalare
+		- am calculat matricea de transformare pentru redimensionare 
+		- apoi am calculat inversa ei
+		- am aplicat inversa matricei de tranformare pentru a gasi xp
+			 si yp
+		- la mine xp = v_p(1, :) si yp = v_p(2, :)
+		- am adunat 1 la acestea
+		- am calculat cel mai apropiat vecin
+		- si am calculat valoarea pixelului din imaginea finala
+			
+	c) RGB		
+		- am facut la toate functiile RGB la fel
+		- am extras fiecare canal in parte
+		- am aplicat functia pe cele 3 canale
+		- am format imaginea finala cu ajutorul functiei cat
+			
+2. Bilinear
+	a) bilinear_coef	
+		-am calculat matricea A asa cum ne era prezentat in pdf
+		-am calculat vectorul b
+		-am calculat coeficientii
+				
+	b) bilinear_2x2	
+		-am calculat coeficientii
+		-am initializat fiecare coeficient
+		-am calculat valoarea pixelului cu formula din pdf
+				
+	c) surrounding_points	
+		-am calculat x1, y1, x2, y2 cu ajutorul functiei floor
+		-m-am asigurat ca x si y nu ies din matrice
+				
+	d) bilinear_resize	
+		-am facut asemanator ca la nn_resize 
+		-am calculat punctele ce inconjoara punctul (xp, yp)
+		-am calculat valoarea interpolata a pixelului (x, y)
+			
+	e) bilinear_rotate	
+		-am calculat sinusul si cosinusul
+		-am calculat matricea de transformare
+		-am calculat si inversa acesteia
+		-am aplicat transformarea inversa asupra (x, y) 
+		-am calculat xp(v_p(1,:)) si yp(v_p(2,:))
+		-am pus un pixel negru daca se aflau inafara imaginii
+		-am calculat punctele ce inconjoara punctul (xp, yp)
+		-am calculat valoarea interpolata a pixelului (x, y)
+				
+	f) RGB 		
+		-am facut ca la punctul 1
+	
+3. Bicubic
+	a) fx, fy, fxy		
+		-am pus conditiile daca punctul e pe margini
+		-am calculat derivata cu ajutorul formulei din pdf
+				
+	b) precalc_d		
+		- am calculat Ix, Iy si Ixy cu ajutorul functiilor fx, fy, fxy
+	
+	c) surrounding_points	
+		-am facut ca la punctul 2
+	
+	d) bicubic_coef 	
+		-am calculat cele 3 matrice din pdf
+		-le-am inmultit pentru a calcula matricea finala cu coeficienti
+				
+	e) bicubic_resize	
+		-am facut asemanator ca la bilinear_resize
+		-am trecut coordonatele (xp, yp) in patratul unitate, 
+			scazand (x1, y1)
+		-am calculat valoarea interpolata a pixelului (x, y) cu ajutorul
+			 formulii din pdf
+		
+	f) RGB 		
+		-am facut ca la punctul 1
+				
